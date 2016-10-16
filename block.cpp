@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Block::Block(Vec2d pos, Block_type type){
+Block::Block(const Vec2d pos, const Block_type type){
   if(!pos.isValid()){
     cerr << "[BLOCK]";
     cerr << "ERROR: trying to generate block in invalid position" << std::endl;
@@ -12,7 +12,7 @@ Block::Block(Vec2d pos, Block_type type){
   type_ = type;
 }
 
-Block::Block(int x, int y, Block_type type){
+Block::Block(const int x, const int y, const Block_type type){
   pos_.x = x;
   pos_.y = y;
   type_ = type;

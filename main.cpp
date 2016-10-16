@@ -1,3 +1,6 @@
+#include "game.h"
 int main(){
-return 0;
+  Game game;
+
+  return 0;
 }
