@@ -4,6 +4,8 @@
 
 class Halpp : public Intel{
 public:
-  virtual void step(Game&);
-  virtual void setBomb(Game&);
+  Halpp(const Game&);
+  virtual Command sendCommand() override;
+private:
+  int id_;
 };

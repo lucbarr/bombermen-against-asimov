@@ -7,3 +7,6 @@ struct Vec2d {
   int x,y;
 };
 
+inline bool operator==(Vec2d a, Vec2d b){
+  return (a.x == b.x && a.y == b.y);
+}

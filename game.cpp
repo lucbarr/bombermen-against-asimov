@@ -9,7 +9,7 @@
 
 using namespace std;
 
-Game::Game(){
+Game::Game() : last_id_(0){
   map = Map(ROWS, vector<Block>(COLUMNS));
   random_device rd;
   mt19937 mt(rd());
@@ -36,23 +36,59 @@ Game::Game(){
   }
 }
 
+// NOTE for the future: adapt for sprite overlay
 void Game::printMap(){
   for (int i = 0; i < map.size() ; ++i){
     for (int j = 0 ; j < map[0].size(); ++j){
       char aux;
-      switch (map[i][j].getType()){
-        case FREE:
-          aux = ' ';
+      bool block_flag = true;
+      for (auto agent : agents_){
+        if (agent.getPos() == map[i][j].getPos()){
+          aux = '0' + agent.getId();
+          block_flag = false;
           break;
-        case BREAKABLE:
-          aux = '%';
-          break;
-        case UNBREAKABLE:
-          aux = '#';
-          break;
+        }
+      }
+      if (block_flag){
+        switch (map[i][j].getType()){
+          case FREE:
+            aux = ' ';
+            break;
+          case BREAKABLE:
+            aux = '%';
+            break;
+          case UNBREAKABLE:
+            aux = '#';
+            break;
+        }
       }
       cout << aux ;
     }
     cout << endl ;
   }
 }
+
+void Game::linkIntel(Intel* intel){
+  static int intel_counter = 1;
+  static Vec2d corner(1,1); 
+  last_id_ = intel_counter;
+  intels_.push_back(intel);
+  agents_.push_back(Agent(corner, intel_counter));
+  switch(intel_counter ){
+    case (1):
+      corner = Vec2d(1,COLUMNS-2);
+      break;
+    case (2):
+      corner = Vec2d(ROWS-2,COLUMNS-2);
+      break;
+    case (3):
+      corner = Vec2d(ROWS-2,1);
+      break;
+    case (4):
+      corner = Vec2d(1,1);
+      cerr << "[WARNING]: max number of players reached" << endl;
+      break;
+  }
+  intel_counter++;
+}
+

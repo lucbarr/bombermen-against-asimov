@@ -1,8 +1,8 @@
 #include "agent.h"
 #include <iostream>
 
-Agent::Agent(const Vec2d pos){
-  static int idCounter = 1;
+Agent::Agent(const Vec2d pos, const int id){
+  id_ = id;
   bombs_ = BOMBS_INIT;
   has_bombs_ = true;
   is_dead_ = false;
@@ -13,8 +13,6 @@ Agent::Agent(const Vec2d pos){
     std::cerr << "ERROR: trying to initialize agent in invalid position." << std::endl;
     pos_ = NULL_POS;
   }
-  id_ = idCounter;
-  idCounter++;
 }
 
 // This one is tricky, yet the first&only solution I've found.
@@ -26,6 +24,7 @@ Agent::Agent(const Vec2d pos){
 // it has no bombs to be place. This is tricky because gamestate update must
 // take this information of NULL_POS into account.
 
+#if 0
 Vec2d Agent::placeBomb(){
   if(has_bombs_){
     bombs_--;
@@ -40,6 +39,7 @@ Vec2d Agent::placeBomb(){
     return NULL_POS;
   }
 }
+#endif
 
 // TODO: define recharging turns number interval
 void Agent::bombRecharge(){

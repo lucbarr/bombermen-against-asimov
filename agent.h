@@ -4,9 +4,9 @@
 class Agent {
 public:
   Agent() = delete;
-  Agent(const Vec2d pos);
+  Agent(const Vec2d pos, const int id);
 
-  Vec2d placeBomb();
+  void kill() { is_dead_ = true; }
 
   Vec2d getPos() const { return pos_; }
   int getId() const { return id_; }
