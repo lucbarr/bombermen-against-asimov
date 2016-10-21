@@ -18,20 +18,9 @@ Block::Block(const int x, const int y, const Block_type type){
   type_ = type;
 }
 
-void Block::bomb(){
-  switch(type_){
-    case(FREE):
-      break;
-    case(BREAKABLE):
-      type_ = FREE;
-      break;
-    case(UNBREAKABLE):
-      break;
-  }
-}
-
 void Block::crush(){
   if (type_ == BREAKABLE){
     type_ = FREE;
   }
 }
+

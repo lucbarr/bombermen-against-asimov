@@ -7,7 +7,7 @@ const int DEFAULT_RANGE = 3;
 
 class Bomb {
 public:
-  Bomb(Vec2d pos);
+  Bomb(const Vec2d pos);
   Bomb() = delete;
   ~Bomb() = default;
   Bomb& operator= (const Bomb&) = default;

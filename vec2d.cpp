@@ -22,3 +22,4 @@ bool Vec2d::isValid() const {
 void Vec2d::debug(){
   std::cerr << "[x: " << x << ", y: " << y << " ]" << std::endl;
 }
+

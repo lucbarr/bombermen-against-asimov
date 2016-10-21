@@ -84,10 +84,10 @@ void Game::agentstep(){
 void Game::step() {
   vector<Command> commands;
   vector<Vec2d> exploded_path;
-  // Runs all bombs internal clocks.
+  // Runs all bombs and agents internal clocks.
   this->bombstep();
   this->agentstep();
-  // Loop for reading intel commands.
+  // Loop for reading intels commands.
   for (auto intel : intels_){
     commands.push_back(intel->sendCommand());
   }
@@ -100,7 +100,7 @@ void Game::step() {
     }
   }
   // Loop for finding exploded bombpath.
-  // NOTE: can have repeated elements in set.
+  // NOTE: can have repeated elements in vector.
   vector<Bomb> new_bombs;
   for (int i = 0; i < bombs_.size() ; ++i){
     const int centre_x = bombs_[i].getPos().x;

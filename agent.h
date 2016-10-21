@@ -1,6 +1,10 @@
 #pragma once
 #include "vec2d.h"
 
+// Agent is a class for AIs agents, which move around,
+// place bombs, recharge bombs and can eventually die, 
+// resulting in an AI failure. Its methods are pretty
+// straightforward and self-explanatory.
 class Agent {
 public:
   Agent() = delete;

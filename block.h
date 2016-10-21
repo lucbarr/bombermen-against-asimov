@@ -8,14 +8,16 @@ enum Block_type{
   UNBREAKABLE
 };
 
+// Block class defines what is a block object in the game map.
 class Block{
 public:
   Block() = default;
   ~Block() = default;
+  // Overloaded constructors for easing operations
   Block(const Vec2d pos, const Block_type type);
   Block(const int x, const int y, const Block_type type);
 
-  void bomb();
+  // Crushs a breakable block.
   void crush();
 
   Block_type getType() const { return type_; }
