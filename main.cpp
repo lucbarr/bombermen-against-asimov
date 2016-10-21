@@ -1,17 +1,22 @@
 #include "game.h"
-#include "intel.h"
 #include "AIs/halpp.h"
+#include <iostream>
 
 int main(){
+  char c = 'a';
   Game game;
   Intel* intel1;
   Intel* intel2;
-  Halpp halpp1(game);
-  Halpp halpp2(game);
+  Halpp halpp1;
+  Halpp halpp2;
   intel1 = &halpp1;
   intel2 = &halpp2;
   game.linkIntel(intel1);
   game.linkIntel(intel2);
-  game.printMap();
+  while (c!='x'){
+    game.printMap();
+    game.step();
+    std::cin >> c;
+  }
   return 0;
 }

@@ -80,22 +80,23 @@ void Game::step() {
   // Runs all bombs internal clocks.
   this->bombstep();
   // Loop for reading intel commands.
-#if 0
+#if 1
   for (auto intel : intels_){
-    Command command;
-    command = intel->sendCommand();
-    commands.push_back(command);
+    commands.push_back(intel->sendCommand());
   }
 #endif
   // NOTE: Agents position in vector corresponds to intel's as well
   // Loop for adding set bombs.
   for (int i = 0 ; i < commands.size() ; ++i){
-    if(commands[i].set_bomb){
+    if(commands[i].set_bomb && agents_[i].hasBombs()){
       bombs_.push_back(Bomb(agents_[i].getPos()));
+      agents_[i].placeBomb();
     }
   }
   // Loop for finding exploded bombpath.
+  vector<Bomb> new_bombs;
   for (int i = 0; i < bombs_.size() ; ++i){
+    cerr << bombs_.size() << endl;
     const int centre_x = bombs_[i].getPos().x;
     const int centre_y = bombs_[i].getPos().y;
     const int range = bombs_[i].getRange();
@@ -122,7 +123,7 @@ void Game::step() {
           map[centre_x][centre_y+r].crush();
           break;
         } else {
-          exploded_path.push_back(Vec2d(centre_x+r, centre_y));
+          exploded_path.push_back(Vec2d(centre_x, centre_y+r));
         }
       }
       for (int r = -1; r >= -range; --r ){
@@ -133,14 +134,17 @@ void Game::step() {
           exploded_path.push_back(Vec2d(centre_x, centre_y+r));
         }
       }
-      bombs_.erase(bombs_.begin()+i);
+    } else {
+      new_bombs.push_back(bombs_[i]);
     }
   }
+  bombs_ = new_bombs;
 }
 
 void Game::linkIntel(Intel* intel){
   static int intel_counter = 1;
   static Vec2d corner(1,1); 
+  intel->setId(intel_counter);
   last_id_ = intel_counter;
   intels_.push_back(intel);
   agents_.push_back(Agent(corner, intel_counter));

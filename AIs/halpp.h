@@ -4,8 +4,7 @@
 
 class Halpp : public Intel{
 public:
-  Halpp(const Game&);
-  virtual Command sendCommand() ;
+  virtual Command sendCommand();
 private:
   int id_;
 };

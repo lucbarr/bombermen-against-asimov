@@ -12,6 +12,7 @@ public:
   int getId() const { return id_; }
   int getBombs() const { return bombs_; }
   bool hasBombs() const { return has_bombs_; }
+  void placeBomb();
   void bombRecharge();
 
 private:

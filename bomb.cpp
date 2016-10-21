@@ -1,4 +1,7 @@
 #include "bomb.h"
+#include <iostream>
+
+using namespace std;
 
 Bomb::Bomb(Vec2d pos) : pos_(pos), timer_(DEFAULT_TIMER), range_(DEFAULT_RANGE) {
 
