@@ -1,7 +1,9 @@
 #include "agent.h"
 #include <iostream>
 
+
 Agent::Agent(const Vec2d pos, const int id){
+  clock_ = RECHARGE_TIME;
   id_ = id;
   bombs_ = BOMBS_INIT;
   has_bombs_ = true;
@@ -19,9 +21,8 @@ Agent::Agent(const Vec2d pos, const int id){
 void Agent::placeBomb(){
   if(has_bombs_){
     bombs_--;
-  if (bombs_ <= 0){
+  if (bombs_ == 0){
     has_bombs_ = false;
-    bombs_ = 0;
   }
   } else {
     std::cerr << "[AGENT #" << id_ << "]";
@@ -32,12 +33,14 @@ void Agent::placeBomb(){
 
 // TODO: define recharging turns number interval
 void Agent::bombRecharge(){
-  if (bombs_ < 0){
-    bombs_ = 0;
-  }
-  bombs_++;
-  if (!has_bombs_){
-    has_bombs_ = true;
+  if(clock_ == 0){
+    bombs_++;
+    if (!has_bombs_){
+      has_bombs_ = true;
+    }
+    clock_ = RECHARGE_TIME;
+  } else if (bombs_ < BOMBS_INIT){
+    clock_--;
   }
 }
 

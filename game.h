@@ -21,6 +21,7 @@ public:
 
   void step();
   void bombstep();
+  void agentstep();
 
   void printMap();
   void linkIntel(Intel*);

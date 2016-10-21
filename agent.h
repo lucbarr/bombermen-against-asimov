@@ -12,10 +12,12 @@ public:
   int getId() const { return id_; }
   int getBombs() const { return bombs_; }
   bool hasBombs() const { return has_bombs_; }
+  bool isDead() const { return is_dead_; }
   void placeBomb();
   void bombRecharge();
 
 private:
+  int clock_;
   int bombs_;
   int id_;
   bool has_bombs_;
@@ -24,4 +26,5 @@ private:
 };
 
 const int BOMBS_INIT = 3;
+const int RECHARGE_TIME = 3;
 const Vec2d NULL_POS (-1,-1);

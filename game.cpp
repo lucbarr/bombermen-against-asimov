@@ -1,6 +1,7 @@
 #include "game.h"
 #include <iostream>
 #include <random>
+#include <algorithm>
 
 #define IS_CORNER(i,j) ((i==1 && j==1) || (i==1 && j==2) || (i==2 && j ==1) \
        || (i==(ROWS-2) && j==1) || (i==(ROWS-2) && j==2) || (i==(ROWS-3) && j==1) \
@@ -43,7 +44,7 @@ void Game::printMap(){
       char aux;
       bool block_flag = true;
       for (auto agent : agents_){
-        if (agent.getPos() == map[i][j].getPos()){
+        if (agent.getPos() == map[i][j].getPos() && !agent.isDead()){
           aux = '0' + agent.getId();
           block_flag = false;
           break;
@@ -74,17 +75,22 @@ void Game::bombstep(){
   }
 }
 
+void Game::agentstep(){
+  for (auto &agent : agents_) {
+    agent.bombRecharge();
+  }
+}
+
 void Game::step() {
   vector<Command> commands;
   vector<Vec2d> exploded_path;
   // Runs all bombs internal clocks.
   this->bombstep();
+  this->agentstep();
   // Loop for reading intel commands.
-#if 1
   for (auto intel : intels_){
     commands.push_back(intel->sendCommand());
   }
-#endif
   // NOTE: Agents position in vector corresponds to intel's as well
   // Loop for adding set bombs.
   for (int i = 0 ; i < commands.size() ; ++i){
@@ -94,9 +100,9 @@ void Game::step() {
     }
   }
   // Loop for finding exploded bombpath.
+  // NOTE: can have repeated elements in set.
   vector<Bomb> new_bombs;
   for (int i = 0; i < bombs_.size() ; ++i){
-    cerr << bombs_.size() << endl;
     const int centre_x = bombs_[i].getPos().x;
     const int centre_y = bombs_[i].getPos().y;
     const int range = bombs_[i].getRange();
@@ -139,6 +145,16 @@ void Game::step() {
     }
   }
   bombs_ = new_bombs;
+  // Loop for checking deaths
+  for (auto &agent : agents_){
+    auto it = find(exploded_path.begin(), exploded_path.end(), agent.getPos());
+    if (it != exploded_path.end()){
+      agent.kill();
+    }
+  }
+  // Loop for checking winners
+
+  // Loop for moving not dead agents
 }
 
 void Game::linkIntel(Intel* intel){

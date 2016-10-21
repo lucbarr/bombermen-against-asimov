@@ -14,8 +14,8 @@ int main(){
   game.linkIntel(intel1);
   game.linkIntel(intel2);
   while (c!='x'){
-    game.printMap();
     game.step();
+    game.printMap();
     std::cin >> c;
   }
   return 0;
