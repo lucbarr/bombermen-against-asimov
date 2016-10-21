@@ -1,6 +1,7 @@
 #include "game.h"
 #include "intel.h"
 #include "AIs/halpp.h"
+
 int main(){
   Game game;
   Intel* intel1;
@@ -11,7 +12,6 @@ int main(){
   intel2 = &halpp2;
   game.linkIntel(intel1);
   game.linkIntel(intel2);
-
   game.printMap();
   return 0;
 }

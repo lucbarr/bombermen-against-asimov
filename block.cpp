@@ -29,3 +29,9 @@ void Block::bomb(){
       break;
   }
 }
+
+void Block::crush(){
+  if (type_ == BREAKABLE){
+    type_ = FREE;
+  }
+}

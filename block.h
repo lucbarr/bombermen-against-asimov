@@ -16,6 +16,7 @@ public:
   Block(const int x, const int y, const Block_type type);
 
   void bomb();
+  void crush();
 
   Block_type getType() const { return type_; }
   Vec2d getPos() const { return pos_; }

@@ -68,18 +68,89 @@ void Game::printMap(){
   }
 }
 
+void Game::bombstep(){
+  for (auto &bomb : bombs_ ){
+    bomb.tick();
+  }
+}
+
+void Game::step() {
+  vector<Command> commands;
+  vector<Vec2d> exploded_path;
+  // Runs all bombs internal clocks.
+  this->bombstep();
+  // Loop for reading intel commands.
+#if 0
+  for (auto intel : intels_){
+    Command command;
+    command = intel->sendCommand();
+    commands.push_back(command);
+  }
+#endif
+  // NOTE: Agents position in vector corresponds to intel's as well
+  // Loop for adding set bombs.
+  for (int i = 0 ; i < commands.size() ; ++i){
+    if(commands[i].set_bomb){
+      bombs_.push_back(Bomb(agents_[i].getPos()));
+    }
+  }
+  // Loop for finding exploded bombpath.
+  for (int i = 0; i < bombs_.size() ; ++i){
+    const int centre_x = bombs_[i].getPos().x;
+    const int centre_y = bombs_[i].getPos().y;
+    const int range = bombs_[i].getRange();
+    if (bombs_[i].isBoom()){
+      exploded_path.push_back(bombs_[i].getPos());
+      for (int r = 1; r <= range; ++r ){
+        if (map[centre_x+r][centre_y].getType() != FREE){
+          map[centre_x+r][centre_y].crush();
+          break;
+        } else {
+          exploded_path.push_back(Vec2d(centre_x+r, centre_y));
+        }
+      }
+      for (int r = -1; r >= -range; --r ){
+        if (map[centre_x+r][centre_y].getType() != FREE){
+          map[centre_x+r][centre_y].crush();
+          break;
+        } else {
+          exploded_path.push_back(Vec2d(centre_x+r, centre_y));
+        }
+      }
+      for (int r = 1; r <= range; ++r ){
+        if (map[centre_x][centre_y+r].getType() != FREE){
+          map[centre_x][centre_y+r].crush();
+          break;
+        } else {
+          exploded_path.push_back(Vec2d(centre_x+r, centre_y));
+        }
+      }
+      for (int r = -1; r >= -range; --r ){
+        if (map[centre_x][centre_y+r].getType() != FREE){
+          map[centre_x][centre_y+r].crush();
+          break;
+        } else {
+          exploded_path.push_back(Vec2d(centre_x, centre_y+r));
+        }
+      }
+      bombs_.erase(bombs_.begin()+i);
+    }
+  }
+}
+
 void Game::linkIntel(Intel* intel){
   static int intel_counter = 1;
   static Vec2d corner(1,1); 
   last_id_ = intel_counter;
   intels_.push_back(intel);
   agents_.push_back(Agent(corner, intel_counter));
-  switch(intel_counter ){
+  //Switch spawning position of agents
+  switch(intel_counter){
     case (1):
-      corner = Vec2d(1,COLUMNS-2);
+      corner = Vec2d(ROWS-2,COLUMNS-2);
       break;
     case (2):
-      corner = Vec2d(ROWS-2,COLUMNS-2);
+      corner = Vec2d(1,COLUMNS-2);
       break;
     case (3):
       corner = Vec2d(ROWS-2,1);

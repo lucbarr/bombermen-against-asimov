@@ -1,4 +1,5 @@
 #include "vec2d.h"
+#include <iostream>
 
 Vec2d::Vec2d() {
   x = 0;
@@ -16,4 +17,8 @@ bool Vec2d::isValid() const {
   } else {
     return false;
   }
+}
+
+void Vec2d::debug(){
+  std::cerr << "[x: " << x << ", y: " << y << " ]" << std::endl;
 }

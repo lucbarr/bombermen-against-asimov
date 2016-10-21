@@ -4,6 +4,7 @@
 #include "block.h"
 #include "intel.h"
 #include "agent.h"
+#include "bomb.h"
 
 const int ROWS = 13;
 const int COLUMNS = 17;
@@ -18,12 +19,16 @@ public:
   ~Game() = default ;
   Map map;
 
+  void step();
+  void bombstep();
+
   void printMap();
   void linkIntel(Intel*);
   int getLastId() const { return last_id_; }
 private:
   std::vector<Intel*> intels_;
   std::vector<Agent> agents_;
+  std::vector<Bomb> bombs_;
   int last_id_;
 };
 
