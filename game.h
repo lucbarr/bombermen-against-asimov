@@ -32,9 +32,11 @@ public:
   // Adds an Intel to the game.
   void linkIntel(Intel*);
 private:
+  bool gameover;
   // Methods for performing each entities step in time
   void bombstep();
   void agentstep();
+  Vec2d move(MOVE movement);
   // Containers for games entities
   std::vector<Intel*> intels_;
   std::vector<Agent> agents_;

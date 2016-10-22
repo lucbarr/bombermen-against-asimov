@@ -19,6 +19,7 @@ public:
   bool isDead() const { return is_dead_; }
   void placeBomb();
   void bombRecharge();
+  void setPos(Vec2d pos) { pos_ = pos; }
 
 private:
   int clock_;

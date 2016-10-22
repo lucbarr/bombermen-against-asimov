@@ -14,3 +14,8 @@ struct Vec2d {
 inline bool operator==(Vec2d a, Vec2d b){
   return (a.x == b.x && a.y == b.y);
 }
+
+inline Vec2d operator+(Vec2d a, Vec2d b){
+  return Vec2d(a.x+b.x, a.y+b.y);
+}
+

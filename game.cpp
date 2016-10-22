@@ -10,7 +10,7 @@
 
 using namespace std;
 
-Game::Game() : last_id_(0){
+Game::Game() : gameover(false){
   map = Map(ROWS, vector<Block>(COLUMNS));
   random_device rd;
   mt19937 mt(rd());
@@ -81,6 +81,21 @@ void Game::agentstep(){
   }
 }
 
+Vec2d Game::move(MOVE movement){
+  switch (movement){
+    case NORTH:
+      return Vec2d(-1,0);
+    case SOUTH:
+      return Vec2d(1,0);
+    case EAST:
+      return Vec2d(0,1);
+    case WEST:
+      return Vec2d(0,-1);
+    case HALT:
+      return Vec2d(0,0);
+  }
+}
+
 void Game::step() {
   vector<Command> commands;
   vector<Vec2d> exploded_path;
@@ -99,6 +114,7 @@ void Game::step() {
       agents_[i].placeBomb();
     }
   }
+
   // Loop for finding exploded bombpath.
   // NOTE: can have repeated elements in vector.
   vector<Bomb> new_bombs;
@@ -152,16 +168,29 @@ void Game::step() {
       agent.kill();
     }
   }
-  // Loop for checking winners
-
-  // Loop for moving not dead agents
+  // Loop for finding and moving alive agents
+  vector<Agent> alive_agents;
+  for (int i = 0 ; i < agents_.size() ; ++i){
+    if (!agents_[i].isDead()){
+      alive_agents.push_back(agents_[i]);
+      Vec2d future = agents_[i].getPos() + move(commands[i].move);
+      if (map[future.x][future.y].getType() == FREE){
+        agents_[i].setPos(future);
+      }
+    }
+  }
+  if (alive_agents.size() == 0){
+    cout << "It's a tie!! Everyone is dead!!" << endl;
+    gameover = true;
+  } else if (alive_agents.size() == 1 ) {
+    cout << "We have a winner!" << endl;
+  }
 }
 
 void Game::linkIntel(Intel* intel){
   static int intel_counter = 1;
   static Vec2d corner(1,1); 
   intel->setId(intel_counter);
-  last_id_ = intel_counter;
   intels_.push_back(intel);
   agents_.push_back(Agent(corner, intel_counter));
   //Switch spawning position of agents

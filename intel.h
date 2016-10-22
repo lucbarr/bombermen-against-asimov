@@ -1,7 +1,5 @@
 #pragma once
 
-#include "game.h"
-
 // Definition of Command data structure.
 enum MOVE{
   NORTH,
