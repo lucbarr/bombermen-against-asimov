@@ -39,10 +39,21 @@ Game::Game() : gameover(false){
 
 // NOTE for the future: adapt for sprite overlay
 void Game::printMap(){
+  vector<Vec2d> bombs_pos;
+  for (auto bomb : bombs_){
+    bombs_pos.push_back(bomb.getPos());
+  }
   for (int i = 0; i < map.size() ; ++i){
     for (int j = 0 ; j < map[0].size(); ++j){
       char aux;
       bool block_flag = true;
+      for (auto bomb_pos : bombs_pos){
+        if (bomb_pos == map[i][j].getPos()){
+          aux = bombs_[0].getBombSymbol();
+          block_flag = false;
+          break;
+        }
+      }
       for (auto agent : agents_){
         if (agent.getPos() == map[i][j].getPos() && !agent.isDead()){
           aux = '0' + agent.getId();

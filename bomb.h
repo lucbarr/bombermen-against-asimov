@@ -3,7 +3,7 @@
 #include "vec2d.h"
 
 const int DEFAULT_TIMER = 3;
-const int DEFAULT_RANGE = 3;
+const int DEFAULT_RANGE = 2;
 
 class Bomb {
 public:
