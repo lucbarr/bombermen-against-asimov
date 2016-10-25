@@ -113,9 +113,24 @@ void Game::step() {
   // Runs all bombs and agents internal clocks.
   this->bombstep();
   this->agentstep();
+  Gamestate gamestate;
+  // Packing gamestate
+  for (auto bomb : bombs_){
+    gamestate.bombs.push_back(bomb.getPos());
+  }
+  for (auto agent : agents_){
+    gamestate.agents.push_back(agent.getPos());
+  }
+  gamestate.blocks = Blockmap(ROWS, vector <Block_type>(COLUMNS));
+  for (int i = 0; i < map.size() ; ++i){
+    for (int j = 0; j < map[0].size() ; ++j){
+      gamestate.blocks[i][j] = map[i][j].getType();
+    }
+  }
   // Loop for reading intels commands.
-  for (auto intel : intels_){
-    commands.push_back(intel->sendCommand());
+  for (int i = 0; i < intels_.size() ; ++i){
+    gamestate.self = agents_[i].getPos();
+    commands.push_back(intels_[i]->sendCommand(gamestate));
   }
   // NOTE: Agents position in vector corresponds to intel's as well
   // Loop for adding set bombs.
@@ -125,7 +140,6 @@ void Game::step() {
       agents_[i].placeBomb();
     }
   }
-
   // Loop for finding exploded bombpath.
   // NOTE: can have repeated elements in vector.
   vector<Bomb> new_bombs;

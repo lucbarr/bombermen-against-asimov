@@ -1,5 +1,7 @@
 #pragma once
 
+#include "gamestate.h"
+
 // Definition of Command data structure.
 enum MOVE{
   NORTH,
@@ -20,7 +22,7 @@ class Intel {
 public:
   // Alleged to send commands so Game can perform them.
   // Must be redefined for each derived from Intel class.
-  virtual Command sendCommand() = 0;
+  virtual Command sendCommand(const Gamestate) = 0;
   void setId(int id) { id_ = id; }
 private:
   int id_;

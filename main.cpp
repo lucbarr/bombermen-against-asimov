@@ -13,7 +13,7 @@ int main(){
   intel2 = &halpp2;
   game.linkIntel(intel1);
   game.linkIntel(intel2);
-  while (c!='x'){
+  while (!game.isOver()){
     game.step();
     game.printMap();
     std::cin >> c;
