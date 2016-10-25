@@ -1,7 +1,6 @@
 #include "agent.h"
 #include <iostream>
 
-
 Agent::Agent(const Vec2d pos, const int id){
   clock_ = RECHARGE_TIME;
   id_ = id;
