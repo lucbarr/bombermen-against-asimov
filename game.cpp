@@ -75,7 +75,7 @@ void Game::printMap(){
             aux = ' ';
             break;
           case BREAKABLE:
-            aux = '%';
+            aux = '.';
             break;
           case UNBREAKABLE:
             aux = '#';
