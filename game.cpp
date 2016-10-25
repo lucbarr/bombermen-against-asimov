@@ -115,13 +115,15 @@ void Game::step() {
   this->agentstep();
   Gamestate gamestate;
   // Packing gamestate
+  gamestate.map_height = ROWS;
+  gamestate.map_width = COLUMNS;
   for (auto bomb : bombs_){
     gamestate.bombs.push_back(bomb.getPos());
   }
   for (auto agent : agents_){
     gamestate.agents.push_back(agent.getPos());
   }
-  gamestate.blocks = Blockmap(ROWS, vector <Block_type>(COLUMNS));
+  gamestate.blocks = Blockmap(ROWS, vector <BLOCK_TYPE>(COLUMNS));
   for (int i = 0; i < map.size() ; ++i){
     for (int j = 0; j < map[0].size() ; ++j){
       gamestate.blocks[i][j] = map[i][j].getType();
@@ -206,9 +208,12 @@ void Game::step() {
   }
   if (alive_agents.size() == 0){
     cout << "It's a tie!! Everyone is dead!!" << endl;
+    this->printMap();
     gameover = true;
   } else if (alive_agents.size() == 1 ) {
     cout << "We have a winner!" << endl;
+    this->printMap();
+    gameover = true;
   }
 }
 

@@ -1,9 +1,26 @@
 #include "game.h"
 #include "AIs/halpp.h"
+#include <string>
 #include <iostream>
 
+using namespace std;
+
+bool MENU() {
+  string input;
+  getline (cin, input);
+  if (!input.compare("1")){
+    return true;
+  } else if (!input.compare("0")) {
+    cout << "Bye!!" << endl;
+    return false;
+  } else {
+    cout << "Invalid option. Try again." << endl;
+    return MENU();
+  }
+}
+
+
 int main(){
-  char c = 'a';
   Game game;
   Intel* intel1;
   Intel* intel2;
@@ -13,10 +30,10 @@ int main(){
   intel2 = &halpp2;
   game.linkIntel(intel1);
   game.linkIntel(intel2);
-  while (!game.isOver()){
-    game.step();
+  cout << "Insert 1 for stepping forward on the game and 0 to exit:" << endl;
+  while (!game.isOver() && MENU()){
     game.printMap();
-    std::cin >> c;
+    game.step();
   }
   return 0;
 }
