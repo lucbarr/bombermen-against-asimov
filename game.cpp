@@ -1,4 +1,5 @@
 #include "game.h"
+#include "gamestate.h"
 #include <iostream>
 #include <random>
 #include <algorithm>
@@ -45,8 +46,11 @@ void Game::printMap(){
   }
   for (int i = 0; i < map.size() ; ++i){
     for (int j = 0 ; j < map[0].size(); ++j){
-      char aux;
       bool block_flag = true;
+      char aux;
+      auto it = find(exploded_path_.begin(), exploded_path_.end(), Vec2d(i,j));
+      // "Rendering" overlaying sequence, the last one
+      // overlays the other previous, if existing.
       for (auto bomb_pos : bombs_pos){
         if (bomb_pos == map[i][j].getPos()){
           aux = bombs_[0].getBombSymbol();
@@ -60,6 +64,10 @@ void Game::printMap(){
           block_flag = false;
           break;
         }
+      }
+      if (it != exploded_path_.end()) {
+        aux = SYMBOL_EXPLOSION;
+        block_flag = false;
       }
       if (block_flag){
         switch (map[i][j].getType()){
@@ -109,7 +117,6 @@ Vec2d Game::move(MOVE movement){
 
 void Game::step() {
   vector<Command> commands;
-  vector<Vec2d> exploded_path;
   // Runs all bombs and agents internal clocks.
   this->bombstep();
   this->agentstep();
@@ -150,13 +157,13 @@ void Game::step() {
     const int centre_y = bombs_[i].getPos().y;
     const int range = bombs_[i].getRange();
     if (bombs_[i].isBoom()){
-      exploded_path.push_back(bombs_[i].getPos());
+      exploded_path_.push_back(bombs_[i].getPos());
       for (int r = 1; r <= range; ++r ){
         if (map[centre_x+r][centre_y].getType() != FREE){
           map[centre_x+r][centre_y].crush();
           break;
         } else {
-          exploded_path.push_back(Vec2d(centre_x+r, centre_y));
+          exploded_path_.push_back(Vec2d(centre_x+r, centre_y));
         }
       }
       for (int r = -1; r >= -range; --r ){
@@ -164,7 +171,7 @@ void Game::step() {
           map[centre_x+r][centre_y].crush();
           break;
         } else {
-          exploded_path.push_back(Vec2d(centre_x+r, centre_y));
+          exploded_path_.push_back(Vec2d(centre_x+r, centre_y));
         }
       }
       for (int r = 1; r <= range; ++r ){
@@ -172,7 +179,7 @@ void Game::step() {
           map[centre_x][centre_y+r].crush();
           break;
         } else {
-          exploded_path.push_back(Vec2d(centre_x, centre_y+r));
+          exploded_path_.push_back(Vec2d(centre_x, centre_y+r));
         }
       }
       for (int r = -1; r >= -range; --r ){
@@ -180,7 +187,7 @@ void Game::step() {
           map[centre_x][centre_y+r].crush();
           break;
         } else {
-          exploded_path.push_back(Vec2d(centre_x, centre_y+r));
+          exploded_path_.push_back(Vec2d(centre_x, centre_y+r));
         }
       }
     } else {
@@ -190,8 +197,8 @@ void Game::step() {
   bombs_ = new_bombs;
   // Loop for checking deaths
   for (auto &agent : agents_){
-    auto it = find(exploded_path.begin(), exploded_path.end(), agent.getPos());
-    if (it != exploded_path.end()){
+    auto it = find(exploded_path_.begin(), exploded_path_.end(), agent.getPos());
+    if (it != exploded_path_.end()){
       agent.kill();
     }
   }
