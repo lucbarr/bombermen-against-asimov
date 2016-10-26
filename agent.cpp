@@ -17,6 +17,8 @@ Agent::Agent(const Vec2d pos, const int id){
 
 #if 1
 void Agent::placeBomb(){
+  // COMMENT(naum): Nessa função que devia ter a lógica de adicionar a bomba na lista de bombas
+
   if(hasBombs()){
     bombs_--;
   } else {

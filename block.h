@@ -1,5 +1,6 @@
 #pragma once
 
+#include "contants.h"
 #include "vec2d.h"
 
 // COMMENT(naum): Classe muito simples para precisar de .cpp
@@ -14,9 +15,7 @@ public:
   {}
 
   // Crushs a breakable block.
-  void crush() {
-     if (type_ == BREAKABLE) type_ = FREE;
-  }
+  void crush() { if (type_ == BREAKABLE) type_ = FREE; }
 
   BlockType getType() const { return type_; }
   Vec2d getPos() const { return pos_; }

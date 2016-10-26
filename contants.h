@@ -30,11 +30,28 @@ enum Move {
 
 // Structs
 
+struct Entity {
+  int id;    // COMMENT(naum): é interessante toda entidade ter um id
+  Vec2d pos; // Entity position
+};
+
+struct BombEntity : public Entity {
+  int ownerId; // COMMENT(naum): é interessante toda bomba saber quem é o dono
+  int timer;   // Ticks left to explosion
+  int range;   // Explosion range
+};
+
+struct AgentEntity : public Entity {
+  int bombs; // Number of bombs available
+  //int score; // COMMENT(naum): informação não necessária, mas interessante
+};
+
 struct Gamestate {
-  std::vector<Vec2d> bombs;
-  std::vector<Vec2d> agents;
+  std::vector<BombEntity>  bombs;
+  std::vector<AgentEntity> agents;
   std::array<std::array<BlockType, COLUMNS>, ROWS> blocks;
-  Vec2d self;
+  //Vec2d self;
+  int selfId;  // COMMENT(naum): passar o id é melhor pq o agente tem mais informação que a posição (e pode ter mais de um agente na mesma posição)
   int mapWidth, mapHeight;
 };
 

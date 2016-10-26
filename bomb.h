@@ -7,7 +7,9 @@
 
 class Bomb {
 public:
-  Bomb(const Vec2d pos) : pos_ { pos } {}
+  static const char symbol_bomb_ = 'o';
+
+  Bomb(const Vec2d pos, const int ownedId) : pos_ { pos }, ownedId_ { ownedId } {}
   Bomb() = delete;
 
   void  tick()                { timer_--; }
@@ -20,8 +22,8 @@ public:
 
 private:
   Vec2d pos_;
-  int timer_        = BOMB_DEFAULT_TIMER;
-  int range_        = BOMB_DEFAULT_RANGE;
-  char symbol_bomb_ = 'o';
+  int ownedId_;
+  int timer_ = BOMB_DEFAULT_TIMER;
+  int range_ = BOMB_DEFAULT_RANGE;
 };
 
