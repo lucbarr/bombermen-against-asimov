@@ -75,7 +75,7 @@ void Game::printMap(){
             aux = ' ';
             break;
           case BREAKABLE:
-            aux = '.';
+            aux = '+';
             break;
           case UNBREAKABLE:
             aux = '#';
@@ -100,7 +100,7 @@ void Game::agentstep(){
   }
 }
 
-Vec2d Game::move(MOVE movement){
+Vec2d Game::move(Move movement){
   switch (movement){
     case NORTH:
       return Vec2d(-1,0);
@@ -144,7 +144,7 @@ void Game::step() {
   // NOTE: Agents position in vector corresponds to intel's as well
   // Loop for adding set bombs.
   for (int i = 0 ; i < commands.size() ; ++i){
-    if(commands[i].set_bomb && agents_[i].hasBombs()){
+    if(commands[i].placeBomb && agents_[i].hasBombs()){
       bombs_.push_back(Bomb(agents_[i].getPos()));
       agents_[i].placeBomb();
     }
@@ -227,7 +227,7 @@ void Game::step() {
 void Game::linkIntel(Intel* intel){
   static int intel_counter = 1;
   static Vec2d corner(1,1); 
-  intel->setId(intel_counter);
+  //intel->setId(intel_counter);
   intels_.push_back(intel);
   agents_.push_back(Agent(corner, intel_counter));
   //Switch spawning position of agents

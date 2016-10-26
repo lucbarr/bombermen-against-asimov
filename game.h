@@ -20,7 +20,6 @@ class Intel;
 class Game{
 public:
   Game();
-  ~Game() = default ;
   // Game map of blocks displacement
   Map map;
   // Performs a step in game time:
@@ -37,7 +36,7 @@ private:
   // Methods for performing each entities step in time
   void bombstep();
   void agentstep();
-  Vec2d move(MOVE movement);
+  Vec2d move(Move movement);
   // Containers for games entities
   std::vector<Intel*> intels_;
   std::vector<Agent> agents_;

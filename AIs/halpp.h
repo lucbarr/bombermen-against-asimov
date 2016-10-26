@@ -4,7 +4,10 @@
 
 class Halpp : public Intel{
 public:
-  virtual Command sendCommand(const Gamestate);
-private:
-  int id_;
+  virtual Command sendCommand(const Gamestate) override {
+    Command command;
+    command.placeBomb = true;
+    command.move = SOUTH;
+    return command;
+  }
 };

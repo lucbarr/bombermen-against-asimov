@@ -5,25 +5,25 @@
 const int DEFAULT_TIMER = 3;
 const int DEFAULT_RANGE = 2;
 
+// COMMENT(naum): Classe muito simples para precisar de .cpp
+
 class Bomb {
 public:
-  Bomb(const Vec2d pos);
+  Bomb(const Vec2d pos) : pos_ { pos } {}
   Bomb() = delete;
-  ~Bomb() = default;
-  Bomb& operator= (const Bomb&) = default;
 
-  void tick(); // Runs bomb's internal clock.
-  bool isBoom();
+  void  tick()                { timer_--; }
+  bool  isBoom()        const { return timer_ <= 0; }
 
-  Vec2d getPos() const { return pos_; }
-  int getTimer() const { return timer_; };
-  int getRange() const { return range_; }
-  char getBombSymbol() const { return symbol_bomb_; }
+  Vec2d getPos()        const { return pos_; }
+  int   getTimer()      const { return timer_; };
+  int   getRange()      const { return range_; }
+  char  getBombSymbol() const { return symbol_bomb_; }
 
 private:
   Vec2d pos_;
-  int timer_;
-  int range_;
+  int timer_        = DEFAULT_TIMER;
+  int range_        = DEFAULT_RANGE;
   char symbol_bomb_ = 'o';
 };
 

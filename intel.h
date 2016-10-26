@@ -3,7 +3,8 @@
 #include "gamestate.h"
 
 // Definition of Command data structure.
-enum MOVE{
+// COMMENT(naum): Nome de tipo MixedCase
+enum Move {
   NORTH,
   SOUTH,
   EAST,
@@ -12,8 +13,8 @@ enum MOVE{
 };
 
 struct Command{
-  MOVE move;
-  bool set_bomb;
+  Move move;
+  bool placeBomb; // COMMENT(naum): Nome melhor
 };
 
 // Intel is a base class for an AI to perform in game.
@@ -23,8 +24,7 @@ public:
   // Alleged to send commands so Game can perform them.
   // Must be redefined for each derived from Intel class.
   virtual Command sendCommand(const Gamestate) = 0;
-  void setId(int id) { id_ = id; }
-private:
-  int id_;
+
+  // COMMENT(naum): Se no GameState vai ter o self então não precisa de id
 };
 

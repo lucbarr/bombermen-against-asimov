@@ -25,14 +25,13 @@ bool MENU() {
 
 int main(){
   Game game;
-  KogyBot kogy;
-  DumbBot dumb;
-  game.linkIntel(&kogy);
-  game.linkIntel(&dumb);
+  DumbBot dumb1, dumb2;
+  game.linkIntel(&dumb1);
+  game.linkIntel(&dumb2);
   //cout << "Insert 1 for stepping forward on the game and 0 to exit:" << endl;
   while (!game.isOver()) {// && MENU()){
     game.printMap();
-    scanf("%*c");
+    cin.get();
     game.step();
   }
   return 0;

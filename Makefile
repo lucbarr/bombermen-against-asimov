@@ -1,4 +1,4 @@
-MAIN = baa
+MAIN = baa.out
 CXX = clang++
 CXXFLAGS = -std=c++11
 SRC := $(shell find . -name '*.cpp')
