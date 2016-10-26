@@ -1,7 +1,6 @@
 #include "game.h"
 #include "AIs/halpp.h"
 #include "AIs/dumb.h"
-#include "AIs/kogy.h"
 #include <string>
 #include <iostream>
 #include <cstdio>

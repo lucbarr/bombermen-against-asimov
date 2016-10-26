@@ -1,9 +1,7 @@
 #pragma once
 
+#include "contants.h"
 #include "vec2d.h"
-
-const int DEFAULT_TIMER = 3;
-const int DEFAULT_RANGE = 2;
 
 // COMMENT(naum): Classe muito simples para precisar de .cpp
 
@@ -22,8 +20,8 @@ public:
 
 private:
   Vec2d pos_;
-  int timer_        = DEFAULT_TIMER;
-  int range_        = DEFAULT_RANGE;
+  int timer_        = BOMB_DEFAULT_TIMER;
+  int range_        = BOMB_DEFAULT_RANGE;
   char symbol_bomb_ = 'o';
 };
 

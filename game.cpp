@@ -1,5 +1,5 @@
 #include "game.h"
-#include "gamestate.h"
+#include "intel.h"
 #include <iostream>
 #include <random>
 #include <algorithm>
@@ -12,13 +12,12 @@
 using namespace std;
 
 Game::Game() : gameover(false){
-  map = Map(ROWS, vector<Block>(COLUMNS));
   random_device rd;
   mt19937 mt(rd());
   uniform_real_distribution<float> rand(0, 1);
   // Generates standand map without breakable blocks.
-  for (int i = 0; i < map.size() ; ++i){
-    for (int j = 0; j < map[0].size() ; ++j){
+  for (int i = 0; i < ROWS; ++i){
+    for (int j = 0; j < COLUMNS; ++j){
       const float r_num = rand(mt);
       if (i == 0 || i == (ROWS-1) || j == 0 || j==(COLUMNS-1)){
         map[i][j] = Block(i,j,UNBREAKABLE);
@@ -44,8 +43,8 @@ void Game::printMap(){
   for (auto bomb : bombs_){
     bombs_pos.push_back(bomb.getPos());
   }
-  for (int i = 0; i < map.size() ; ++i){
-    for (int j = 0 ; j < map[0].size(); ++j){
+  for (int i = 0; i < ROWS; ++i){
+    for (int j = 0 ; j < COLUMNS; ++j){
       bool block_flag = true;
       char aux;
       auto it = find(exploded_path_.begin(), exploded_path_.end(), Vec2d(i,j));
@@ -120,30 +119,34 @@ void Game::step() {
   // Runs all bombs and agents internal clocks.
   this->bombstep();
   this->agentstep();
+
   Gamestate gamestate;
   // Packing gamestate
-  gamestate.map_height = ROWS;
-  gamestate.map_width = COLUMNS;
+  gamestate.mapHeight = ROWS;
+  gamestate.mapWidth = COLUMNS;
+
   for (auto bomb : bombs_){
     gamestate.bombs.push_back(bomb.getPos());
   }
+
   for (auto agent : agents_){
     gamestate.agents.push_back(agent.getPos());
   }
-  gamestate.blocks = Blockmap(ROWS, vector <BLOCK_TYPE>(COLUMNS));
-  for (int i = 0; i < map.size() ; ++i){
-    for (int j = 0; j < map[0].size() ; ++j){
+
+  for (int i = 0; i < ROWS; ++i){
+    for (int j = 0; j < COLUMNS; ++j){
       gamestate.blocks[i][j] = map[i][j].getType();
     }
   }
+
   // Loop for reading intels commands.
-  for (int i = 0; i < intels_.size() ; ++i){
+  for (int i = 0; i < (int)intels_.size() ; ++i){
     gamestate.self = agents_[i].getPos();
     commands.push_back(intels_[i]->sendCommand(gamestate));
   }
   // NOTE: Agents position in vector corresponds to intel's as well
   // Loop for adding set bombs.
-  for (int i = 0 ; i < commands.size() ; ++i){
+  for (int i = 0 ; i < (int)commands.size() ; ++i){
     if(commands[i].placeBomb && agents_[i].hasBombs()){
       bombs_.push_back(Bomb(agents_[i].getPos()));
       agents_[i].placeBomb();
@@ -152,7 +155,7 @@ void Game::step() {
   // Loop for finding exploded bombpath.
   // NOTE: can have repeated elements in vector.
   vector<Bomb> new_bombs;
-  for (int i = 0; i < bombs_.size() ; ++i){
+  for (int i = 0; i < (int)bombs_.size() ; ++i){
     const int centre_x = bombs_[i].getPos().x;
     const int centre_y = bombs_[i].getPos().y;
     const int range = bombs_[i].getRange();
@@ -204,7 +207,7 @@ void Game::step() {
   }
   // Loop for finding and moving alive agents
   vector<Agent> alive_agents;
-  for (int i = 0 ; i < agents_.size() ; ++i){
+  for (int i = 0 ; i < (int)agents_.size() ; ++i){
     if (!agents_[i].isDead()){
       alive_agents.push_back(agents_[i]);
       Vec2d future = agents_[i].getPos() + move(commands[i].move);

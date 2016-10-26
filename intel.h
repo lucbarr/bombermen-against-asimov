@@ -1,21 +1,6 @@
 #pragma once
 
-#include "gamestate.h"
-
-// Definition of Command data structure.
-// COMMENT(naum): Nome de tipo MixedCase
-enum Move {
-  NORTH,
-  SOUTH,
-  EAST,
-  WEST,
-  HALT
-};
-
-struct Command{
-  Move move;
-  bool placeBomb; // COMMENT(naum): Nome melhor
-};
+#include "contants.h"
 
 // Intel is a base class for an AI to perform in game.
 // see AIs/README.md for further information
