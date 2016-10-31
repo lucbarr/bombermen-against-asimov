@@ -15,7 +15,7 @@ public:
   Vec2d getPos() const { return pos_; }
   int getId() const { return id_; }
   int getBombs() const { return bombs_; }
-  bool hasBombs() const { return has_bombs_; }
+  bool hasBombs() const { return bombs_>0; }
   bool isDead() const { return is_dead_; }
   void placeBomb();
   void bombRecharge();
@@ -25,7 +25,6 @@ private:
   int clock_;
   int bombs_;
   int id_;
-  bool has_bombs_;
   bool is_dead_;
   Vec2d pos_;
 };

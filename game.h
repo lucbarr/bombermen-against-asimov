@@ -1,17 +1,15 @@
 #pragma once
 
 #include <vector>
+#include <array>
+#include "contants.h"
 #include "block.h"
-#include "intel.h"
 #include "agent.h"
 #include "bomb.h"
 
-const int   ROWS = 13;
-const int   COLUMNS = 17;
 // Chance on generating breakable block at map initialization:
-const float F_B_RATIO = 0.7f; 
+const float F_B_RATIO = 0.7f;
 const char  SYMBOL_EXPLOSION = 'X';
-typedef std::vector< std::vector<Block> > Map;
 
 class Intel;
 
@@ -20,9 +18,8 @@ class Intel;
 class Game{
 public:
   Game();
-  ~Game() = default ;
   // Game map of blocks displacement
-  Map map;
+  std::array< std::array<Block, COLUMNS>, ROWS> map; // COMMENT(naum): map é nome de estrutura do c++, melhor mudar esse nome!
   // Performs a step in game time:
   // Manages to perform all entities a step in time
   // and process these changes in the game state.
@@ -37,7 +34,7 @@ private:
   // Methods for performing each entities step in time
   void bombstep();
   void agentstep();
-  Vec2d move(MOVE movement);
+  Vec2d move(Move movement);
   // Containers for games entities
   std::vector<Intel*> intels_;
   std::vector<Agent> agents_;

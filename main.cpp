@@ -1,7 +1,9 @@
 #include "game.h"
 #include "AIs/halpp.h"
+#include "AIs/dumb.h"
 #include <string>
 #include <iostream>
+#include <cstdio>
 
 using namespace std;
 
@@ -22,17 +24,13 @@ bool MENU() {
 
 int main(){
   Game game;
-  Intel* intel1;
-  Intel* intel2;
-  Halpp halpp1;
-  Halpp halpp2;
-  intel1 = &halpp1;
-  intel2 = &halpp2;
-  game.linkIntel(intel1);
-  game.linkIntel(intel2);
-  cout << "Insert 1 for stepping forward on the game and 0 to exit:" << endl;
-  while (!game.isOver() && MENU()){
+  DumbBot dumb1, dumb2;
+  game.linkIntel(&dumb1);
+  game.linkIntel(&dumb2);
+  //cout << "Insert 1 for stepping forward on the game and 0 to exit:" << endl;
+  while (!game.isOver()) {// && MENU()){
     game.printMap();
+    cin.get();
     game.step();
   }
   return 0;
