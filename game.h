@@ -19,7 +19,7 @@ class Game{
 public:
   Game();
   // Game map of blocks displacement
-  std::array< std::array<Block, COLUMNS>, ROWS> map; // COMMENT(naum): map é nome de estrutura do c++, melhor mudar esse nome!
+  std::array< std::array<Block, COLUMNS>, ROWS> map; // COMMENT(naum): Should probably change this name 
   // Performs a step in game time:
   // Manages to perform all entities a step in time
   // and process these changes in the game state.

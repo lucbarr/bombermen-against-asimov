@@ -17,7 +17,7 @@ Agent::Agent(const Vec2d pos, const int id){
 
 #if 1
 void Agent::placeBomb(){
-  // COMMENT(naum): Nessa função que devia ter a lógica de adicionar a bomba na lista de bombas
+  // COMMENT(naum): Bomb adding in list logic should stay here.
 
   if(hasBombs()){
     bombs_--;
@@ -28,10 +28,8 @@ void Agent::placeBomb(){
 }
 #endif
 
-// COMMENT(naum): Bomberman original tinha só uma contagem de bombas que
-//                o jogador podia colocar. Quando uma bomba explodia o jogador
-//                ganhava de volta a bomba
-
+// COMMENT(naum): Bomberman bomb recharging mechanics is different. Should
+//                probably adapt this logic to it.
 // TODO: define recharging turns number interval
 void Agent::bombRecharge(){
   if(clock_ == 0){

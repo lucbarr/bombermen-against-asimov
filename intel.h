@@ -10,6 +10,5 @@ public:
   // Must be redefined for each derived from Intel class.
   virtual Command sendCommand(const Gamestate) = 0;
 
-  // COMMENT(naum): Se no GameState vai ter o self então não precisa de id
 };
 

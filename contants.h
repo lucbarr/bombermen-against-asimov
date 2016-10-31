@@ -31,19 +31,19 @@ enum Move {
 // Structs
 
 struct Entity {
-  int id;    // COMMENT(naum): é interessante toda entidade ter um id
+  int id;    
   Vec2d pos; // Entity position
 };
 
 struct BombEntity : public Entity {
-  int ownerId; // COMMENT(naum): é interessante toda bomba saber quem é o dono
+  int ownerId; 
   int timer;   // Ticks left to explosion
   int range;   // Explosion range
 };
 
 struct AgentEntity : public Entity {
   int bombs; // Number of bombs available
-  //int score; // COMMENT(naum): informação não necessária, mas interessante
+  //int score; // Could de added in a near future
 };
 
 struct Gamestate {
@@ -51,7 +51,7 @@ struct Gamestate {
   std::vector<AgentEntity> agents;
   std::array<std::array<BlockType, COLUMNS>, ROWS> blocks;
   //Vec2d self;
-  int selfId;  // COMMENT(naum): passar o id é melhor pq o agente tem mais informação que a posição (e pode ter mais de um agente na mesma posição)
+  int selfId;  
   int mapWidth, mapHeight;
 };
 
@@ -59,5 +59,5 @@ struct Gamestate {
 // Definition of Command data structure.
 struct Command {
   Move move;
-  bool placeBomb; // COMMENT(naum): Nome melhor
+  bool placeBomb; 
 };

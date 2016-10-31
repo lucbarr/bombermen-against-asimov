@@ -3,8 +3,6 @@
 #include "contants.h"
 #include "vec2d.h"
 
-// COMMENT(naum): Classe muito simples para precisar de .cpp
-
 class Bomb {
 public:
   static const char symbol_bomb_ = 'o';

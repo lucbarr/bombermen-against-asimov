@@ -3,8 +3,6 @@
 #include "contants.h"
 #include "vec2d.h"
 
-// COMMENT(naum): Classe muito simples para precisar de .cpp
-
 // Block class defines what is a block object in the game map.
 class Block{
 public:
