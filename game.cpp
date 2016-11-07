@@ -208,11 +208,16 @@ void Game::step() {
   }
   // Loop for finding and moving alive agents
   vector<Agent> alive_agents;
+  vector<Vec2d> bombs_pos;
+  for (auto bomb : bombs_){
+    bombs_pos.push_back(bomb.getPos());
+  }
   for (int i = 0 ; i < (int)agents_.size() ; ++i){
     if (!agents_[i].isDead()){
       alive_agents.push_back(agents_[i]);
       Vec2d next_pos = agents_[i].getPos() + move(commands[i].move);
-      if (map[next_pos.x][next_pos.y].getType() == FREE){
+      auto it = find (bombs_pos.begin(), bombs_pos.end(), next_pos); // Not passing through bombs
+      if (map[next_pos.x][next_pos.y].getType() == FREE && it == bombs_pos.end()){
         agents_[i].setPos(next_pos);
       }
     }
