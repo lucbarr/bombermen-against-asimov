@@ -85,6 +85,7 @@ void Game::printMap(){
     }
     cout << endl ;
   }
+  exploded_path_.clear();
 }
 
 void Game::bombstep(){
@@ -187,7 +188,7 @@ void Game::step() {
                     ey = y + r * dy[i];
           const auto type = map[ex][ey].getType();
 
-          map[x+r][y].crush(); 
+          map[ex][ey].crush();
           if (type != UNBREAKABLE)
             exploded_path_.push_back(Vec2d(ex, ey));
           if (type != FREE) break;

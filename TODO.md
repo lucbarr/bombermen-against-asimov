@@ -6,3 +6,8 @@
 - How intels will see the map (API)
   - Define a new structure Gamestate for a supposed better readability ?
   - Pass the game const reference ?
+
+
+# BUGFIX
+
+- Exploding before moving
