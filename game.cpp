@@ -188,6 +188,12 @@ void Game::step() {
                     ey = y + r * dy[i];
           const auto type = map[ex][ey].getType();
 
+          //Bomb chain reaction. May change this when add powerups that sum bombs range
+          for (auto& bomb : bombs_){
+            if (bomb.getPos() == Vec2d(ex,ey)){
+              bomb.chain();
+            }
+          }
           map[ex][ey].crush();
           if (type != UNBREAKABLE)
             exploded_path_.push_back(Vec2d(ex, ey));
@@ -202,7 +208,7 @@ void Game::step() {
   // Loop for checking deaths
   // COMMENT(naum): Can be optmized.
   for (auto &agent : agents_){
-    auto it = find(exploded_path_.begin(), exploded_path_.end(), agent.getPos());
+    const auto it = find(exploded_path_.begin(), exploded_path_.end(), agent.getPos());
     if (it != exploded_path_.end()){
       agent.kill();
     }
@@ -216,7 +222,7 @@ void Game::step() {
   for (int i = 0 ; i < (int)agents_.size() ; ++i){
     if (!agents_[i].isDead()){
       alive_agents.push_back(agents_[i]);
-      Vec2d next_pos = agents_[i].getPos() + move(commands[i].move);
+      const Vec2d next_pos = agents_[i].getPos() + move(commands[i].move);
       auto it = find (bombs_pos.begin(), bombs_pos.end(), next_pos); // Not passing through bombs
       if (map[next_pos.x][next_pos.y].getType() == FREE && it == bombs_pos.end()){
         agents_[i].setPos(next_pos);

@@ -11,6 +11,7 @@ public:
   Bomb() = delete;
 
   void  tick()                { timer_--; }
+  void  chain()               { timer_ = 0; }
   bool  isBoom()        const { return timer_ <= 0; }
 
   Vec2d getPos()        const { return pos_; }
