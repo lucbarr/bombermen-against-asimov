@@ -22,7 +22,7 @@ int main(){
   sf::RenderWindow window(sf::VideoMode(COLUMNS*32, ROWS*32), "Bombermen! Against Asimov");
   // create the tilemap from the level definition
   TileMap map;
-  if (!map.load("tileset.png", sf::Vector2u(32, 32), game.getLevel(), COLUMNS, ROWS))
+  if (!map.load("assets/tileset.png", sf::Vector2u(32, 32), game.getLevel(), COLUMNS, ROWS))
     return -1;
   // Load player sprites
   Sprite player1("assets/man-indigo.png", 1, 1);
