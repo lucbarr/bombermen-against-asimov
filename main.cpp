@@ -60,6 +60,7 @@ int main(){
     window.draw(player1);
     window.draw(player2);
     window.display();
+    map.update(game.getLevel());
   }
   return 0;
 }
