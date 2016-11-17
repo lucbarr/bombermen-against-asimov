@@ -87,13 +87,16 @@ public:
 
 class Sprite : public sf::Sprite {
 public:
-  Sprite(const std::string& sprite, int i, int j){
+  Sprite(const std::string& sprite, int j, int i){
     if (!texture_.loadFromFile(sprite, sf::IntRect(0,0,32,32))){
       std::cerr << "[GUI ERROR]: couldn't load sprite file:" << sprite << std::endl;
     } else {
       this->setTexture(texture_);
       this->setPosition(sf::Vector2f(i*32,j*32));
     }
+  }
+  void update(int j, int i){
+    this->setPosition(sf::Vector2f(i*32,j*32));
   }
 private:
   sf::Texture texture_;

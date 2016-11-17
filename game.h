@@ -22,6 +22,7 @@ public:
   std::array< std::array<Block, COLUMNS>, ROWS> map; // COMMENT(naum): Should probably change this name 
 
   int* getLevel() { return level_tilemap_; }
+  Vec2d getAgentPos(int id) { return agents_[id].getPos(); }
   // Performs a step in game time:
   // Manages to perform all entities a step in time
   // and process these changes in the game state.
