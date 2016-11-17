@@ -1,6 +1,6 @@
 #pragma once
 
-#include "contants.h"
+#include "constants.h"
 #include "vec2d.h"
 
 class Bomb {

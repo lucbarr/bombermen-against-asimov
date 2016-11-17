@@ -1,6 +1,6 @@
 #pragma once
 
-#include "contants.h"
+#include "constants.h"
 
 // Intel is a base class for an AI to perform in game.
 // see AIs/README.md for further information
