@@ -56,7 +56,6 @@ void Game::updateTilemap(){
       level_tilemap_[j+i*COLUMNS] = blockToInt(map[i][j].getType()); 
     }
   }
-  cout << "got here" << endl;
 }
 // NOTE for the future: adapt for sprite overlay
 void Game::printMap(){
@@ -287,5 +286,13 @@ void Game::linkIntel(Intel* intel){
       break;
   }
   intel_counter++;
+}
+
+vector<Vec2d> Game::getBombsPos() {
+  vector<Vec2d> bombs_pos;
+  for (auto bomb : bombs_){
+    bombs_pos.push_back(bomb.getPos());
+  }
+  return bombs_pos;
 }
 

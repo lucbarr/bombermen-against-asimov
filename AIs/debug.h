@@ -32,7 +32,6 @@ public:
     Command command;
     command.placeBomb = bombIn(move);
     command.move = moveIn(bomb);
-    cout << command.placeBomb << " " << command.move << endl;
     return command;
   }
   Debug(){

@@ -23,6 +23,7 @@ public:
 
   int* getLevel() { return level_tilemap_; }
   Vec2d getAgentPos(int id) { return agents_[id].getPos(); }
+  std::vector<Vec2d> getBombsPos();
   // Performs a step in game time:
   // Manages to perform all entities a step in time
   // and process these changes in the game state.

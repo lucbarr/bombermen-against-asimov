@@ -25,9 +25,16 @@ int main(){
   if (!map.load("tileset.png", sf::Vector2u(32, 32), game.getLevel(), COLUMNS, ROWS))
     return -1;
   // Load player sprites
-  Sprite player1("man-indigo.png", 1, 1);
-  Sprite player2("man-dusky.png", 0, 0);
+  Sprite player1("assets/man-indigo.png", 1, 1);
+  Sprite player2("assets/man-dusky.png", 0, 0);
+  Sprite bomb("assets/bomb.png", 0 , 0);
   while (!game.isOver()) {
+    vector<Sprite> bomb_sprites;
+    auto bomb_pos = game.getBombsPos();
+    for ( auto pos : bomb_pos ) {
+      bomb_sprites.push_back(bomb);
+      bomb_sprites.back().update(pos.x, pos.y);
+    }
     sf::Event event;
     while (window.pollEvent(event)) {
       if(event.type == sf::Event::Closed)
@@ -38,6 +45,9 @@ int main(){
     window.draw(map);
     window.draw(player1);
     window.draw(player2);
+    for ( auto bomb_sprite : bomb_sprites ){
+      window.draw(bomb_sprite);
+    }
     window.display();
     // console printing and gamme interaction step
     game.printMap();
@@ -46,6 +56,7 @@ int main(){
     // TODO: refactor this ugly thing
     player1.update(game.getAgentPos(0).x, game.getAgentPos(0).y);
     player2.update(game.getAgentPos(1).x, game.getAgentPos(1).y);
+
   }
   return 0;
 }
