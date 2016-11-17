@@ -4,7 +4,7 @@
 - How intels will see the map (API)
   - Define a new structure Gamestate for a supposed better readability ?
 - Fix confused processing order (sometimes the player gets in front of a bomb explosion etc)
-- Add option (maybe a flag ?) to print in console or to use SFML
+- Add option (maybe a flag ?) to print in terminal or to use SFML
 - Change debug interaction to key event pressing rather than terminal inputs
 - Add bomb explosion sprites
 - ULTRA MAJOR MEGA REFACTORING after GUI features added
