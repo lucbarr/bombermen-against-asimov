@@ -87,18 +87,161 @@ public:
 
 class Sprite : public sf::Sprite {
 public:
-  Sprite(const std::string& sprite, int j, int i){
-    if (!texture_.loadFromFile(sprite, sf::IntRect(0,0,32,32))){
+  Sprite(const std::string& sprite, int j, int i, int width, int height){
+    if (!texture_.loadFromFile(sprite, sf::IntRect(0,0,width,height))){
       std::cerr << "[GUI ERROR]: couldn't load sprite file:" << sprite << std::endl;
     } else {
       this->setTexture(texture_);
-      this->setPosition(sf::Vector2f(i*32,j*32));
+      this->setPosition(sf::Vector2f(i*width,j*height));
     }
+    width_ = width;
+    height_ = height;
   }
   void update(int j, int i){
-    this->setPosition(sf::Vector2f(i*32,j*32));
+    this->setPosition(sf::Vector2f(i*width_,j*height_));
   }
 private:
   sf::Texture texture_;
+  int width_, height_;
 };
 
+namespace debug{
+  class Window;
+  enum Arrows{
+    ARROWS_ALLUP,
+    W_DOWN,
+    A_DOWN,
+    S_DOWN,
+    D_DOWN
+  };
+  enum BombKeys{
+    BOMBS_ALLUP,
+    Y_DOWN,
+    N_DOWN
+  };
+}
+
+class debug::Window {
+public:
+  Window(sf::Vector2i main_window_pos, sf::Vector2u main_window_size) : arrows_(ARROWS_ALLUP), 
+             bombkeys_(BOMBS_ALLUP), 
+             space_(Sprite("assets/space.png",0,1,96,96)),
+             window(sf::VideoMode(96*3, 96), "DEBUG") {
+             Sprite* current_sprite;
+             current_sprite = new Sprite("assets/bombs-unpressed.png", 0, 2, 96, 96);
+             bombkeys_sprites_.push_back(current_sprite[0]);
+             current_sprite = new Sprite("assets/bombs-y.png",0,2,96,96);
+             bombkeys_sprites_.push_back(current_sprite[0]);
+             current_sprite = new Sprite("assets/bombs-n.png",0,2,96,96);
+             bombkeys_sprites_.push_back(current_sprite[0]);
+             current_sprite = new Sprite("assets/arrows-unpressed.png", 0, 0, 96, 96);
+             arrows_sprites_.push_back(current_sprite[0]);
+             current_sprite = new Sprite("assets/arrows-w.png",0,0,96,96);
+             arrows_sprites_.push_back(current_sprite[0]);
+             current_sprite = new Sprite("assets/arrows-a.png",0,0,96,96);
+             arrows_sprites_.push_back(current_sprite[0]);
+             current_sprite = new Sprite("assets/arrows-s.png",0,0,96,96);
+             arrows_sprites_.push_back(current_sprite[0]);
+             current_sprite = new Sprite("assets/arrows-d.png",0,0,96,96);
+             arrows_sprites_.push_back(current_sprite[0]);
+             window.setPosition(sf::Vector2i(main_window_pos.x + 0.5*main_window_size.x,main_window_pos.y+ main_window_size.y));
+             std::cerr << main_window_pos.x << " " << main_window_pos.y << std::endl;
+             window.clear(sf::Color(63,63,116));
+             window.draw(bombkeys_sprites_[0]);
+             window.draw(arrows_sprites_[0]);
+           };
+  void draw(){
+    int arrow_index, bombkeys_index;
+    switch(arrows_){
+      case ARROWS_ALLUP:
+        arrow_index = 0;
+        break;
+      case W_DOWN:
+        arrow_index = 1;
+        break;
+      case A_DOWN:
+        arrow_index = 2;
+        break;
+      case S_DOWN:
+        arrow_index = 3;
+        break;
+      case D_DOWN:
+        arrow_index = 4;
+    }
+    switch(bombkeys_){
+      case BOMBS_ALLUP:
+        bombkeys_index = 0;
+        break;
+      case Y_DOWN:
+        bombkeys_index = 1;
+        break;
+      case N_DOWN:
+        bombkeys_index = 2;
+    }
+    window.draw(arrows_sprites_[arrow_index]);
+    window.draw(bombkeys_sprites_.at(bombkeys_index));
+    window.draw(space_);
+  }
+  void in(){
+    bool dir_pressed = false;
+    bool bomb_pressed = false;
+    arrows_ = ARROWS_ALLUP;
+    bombkeys_= BOMBS_ALLUP;
+    while (!(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && dir_pressed && bomb_pressed)){
+      window.clear(sf::Color(63,63,116));
+      this->draw();
+      window.display();
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
+        dir_pressed = true;
+        arrows_ = W_DOWN;
+      } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
+        dir_pressed = true;
+        arrows_ = A_DOWN;
+      } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
+        dir_pressed = true;
+        arrows_ = S_DOWN;
+      } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
+        dir_pressed = true;
+        arrows_ = D_DOWN;
+      }
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)){
+        bomb_pressed = true;
+        bombkeys_ = Y_DOWN;
+      } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::N)){
+        bomb_pressed = true;
+        bombkeys_ = N_DOWN;
+      }
+    }
+  }
+  char getMove(){
+    switch (arrows_){
+      case ARROWS_ALLUP:
+        return 'h';
+      case W_DOWN:
+        return 'w';
+      case A_DOWN:
+        return 'a';
+      case S_DOWN:
+        return 's';
+      case D_DOWN:
+        return 'd';
+    }
+  }
+  char getBomb(){
+    switch(bombkeys_){
+      case BOMBS_ALLUP:
+        return 'n';
+      case Y_DOWN:
+        return 'y';
+      case N_DOWN:
+        return 'n';
+    }
+  }
+  sf::RenderWindow window;
+private:
+  std::vector<Sprite> bombkeys_sprites_;
+  std::vector<Sprite> arrows_sprites_;
+  Sprite space_;
+  debug::Arrows arrows_;
+  debug::BombKeys bombkeys_;
+};

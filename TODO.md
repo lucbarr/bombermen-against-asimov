@@ -7,7 +7,9 @@
 - Add option (maybe a flag ?) to print in terminal or to use SFML
 - Change debug interaction to key event pressing rather than terminal inputs
 - Add bomb explosion sprites
+- Set DEBUG window to attach to main window
 - ULTRA MAJOR MEGA REFACTORING after GUI features added
+- Add documentation
 
 # BUGFIX
 
