@@ -4,6 +4,7 @@
 #include <random>
 #include <algorithm>
 
+
 #define IS_CORNER(i,j) ((i==1 && j==1) || (i==1 && j==2) || (i==2 && j ==1) \
        || (i==(ROWS-2) && j==1) || (i==(ROWS-2) && j==2) || (i==(ROWS-3) && j==1) \
        || (i==1 && j==(COLUMNS-2)) || (i==2 && j==(COLUMNS-2)) || (i==1 && (j==COLUMNS-3)) \
@@ -12,6 +13,7 @@
 using namespace std;
 
 Game::Game() : gameover(false){
+  level_tilemap_ = new int[ROWS*COLUMNS];
   random_device rd;
   mt19937 mt(rd());
   uniform_real_distribution<float> rand(0, 1);
@@ -35,8 +37,26 @@ Game::Game() : gameover(false){
       }
     }
   }
+  this->updateTilemap();
 }
 
+void Game::updateTilemap(){
+  auto blockToInt = [] (BlockType b) {
+    switch(b){
+      case FREE:
+        return 0;
+      case BREAKABLE:
+        return 1;
+      case UNBREAKABLE:
+        return 2;
+    }
+  };
+  for (int i = 0; i < ROWS; ++i){
+    for (int j = 0; j < COLUMNS; ++j){
+      level_tilemap_[j+i*COLUMNS] = blockToInt(map[i][j].getType()); 
+    }
+  }
+}
 // NOTE for the future: adapt for sprite overlay
 void Game::printMap(){
   vector<Vec2d> bombs_pos;
@@ -204,6 +224,8 @@ void Game::step() {
       new_bombs.push_back(bombs_[i]);
     }
   }
+  // Updating tilemap
+  this->updateTilemap();
   bombs_ = new_bombs;
   // Loop for checking deaths
   // COMMENT(naum): Can be optmized.
@@ -264,5 +286,13 @@ void Game::linkIntel(Intel* intel){
       break;
   }
   intel_counter++;
+}
+
+vector<Vec2d> Game::getBombsPos() {
+  vector<Vec2d> bombs_pos;
+  for (auto bomb : bombs_){
+    bombs_pos.push_back(bomb.getPos());
+  }
+  return bombs_pos;
 }
 

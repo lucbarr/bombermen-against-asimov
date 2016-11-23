@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <array>
-#include "contants.h"
+#include "constants.h"
 #include "block.h"
 #include "agent.h"
 #include "bomb.h"
@@ -20,6 +20,10 @@ public:
   Game();
   // Game map of blocks displacement
   std::array< std::array<Block, COLUMNS>, ROWS> map; // COMMENT(naum): Should probably change this name 
+
+  int* getLevel() { return level_tilemap_; }
+  Vec2d getAgentPos(int id) { return agents_[id].getPos(); }
+  std::vector<Vec2d> getBombsPos();
   // Performs a step in game time:
   // Manages to perform all entities a step in time
   // and process these changes in the game state.
@@ -34,6 +38,8 @@ private:
   // Methods for performing each entities step in time
   void bombstep();
   void agentstep();
+  int* level_tilemap_;
+  void updateTilemap();
   Vec2d move(Move movement);
   // Containers for games entities
   std::vector<Intel*> intels_;

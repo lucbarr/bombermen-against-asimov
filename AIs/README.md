@@ -26,6 +26,19 @@ The axis are disposed as x rises column-wise and y rises row-wise (downwards is 
   V
   +y
 ```
+After designing your AI, head to main.cpp file, add the lines:
+
+```
+#include "AIs/myai.h"
+
+//code...
+
+MyAI myai;
+game.linkIntel(&myai);
+```
+Just as is done with DumbBot. You can simply replace names DumbBot by your AI class name. In file DumbBot you can find a template of how should your AI class be. Soon you will not need all this effort to import your AI, there are plans on turning this process more natural and easy to do.
+
+Rebuild the project and you're ready to go!
 
 You can design your AI however you want, you can add many other methods to calculate decisions, you can define
 the calculations inside the main methods, you can just stare at this code and try to comprehend it, you can swear me

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "contants.h"
+#include "constants.h"
 #include "vec2d.h"
 
 // Block class defines what is a block object in the game map.
